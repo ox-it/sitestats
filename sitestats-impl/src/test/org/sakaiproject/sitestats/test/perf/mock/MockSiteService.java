@@ -186,6 +186,21 @@ public class MockSiteService implements SiteService {
 	}
 
 	@Override
+	public boolean allowAddManagedSite() {
+		return false;
+	}
+
+	@Override
+	public Site addSite(String id, String type, String adminRealm) throws IdInvalidException, IdUsedException, PermissionException {
+		return null;
+	}
+
+	@Override
+	public Site addSite(String id, Site other, String adminRealm) throws IdInvalidException, IdUsedException, PermissionException {
+		return null;
+	}
+
+	@Override
 	public Site addSite(String id, String type) throws IdInvalidException,
 			IdUsedException, PermissionException {
 		// TODO Auto-generated method stub
@@ -482,8 +497,23 @@ public class MockSiteService implements SiteService {
 	}
 
 	@Override
+	public String lookupSiteAlias(String siteId) {
+		return null;
+	}
+
+	@Override
 	public boolean allowRoleSwap(String id) {
 		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void addSiteRemovalAdvisor(SiteRemovalAdvisor siteRemovalAdvisor) {
+
+	}
+
+	@Override
+	public boolean removeSiteRemovalAdvisor(SiteRemovalAdvisor siteRemovalAdvisor) {
 		return false;
 	}
 
