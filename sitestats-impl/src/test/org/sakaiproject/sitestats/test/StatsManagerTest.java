@@ -358,6 +358,8 @@ public class StatsManagerTest extends AbstractAnnotationAwareTransactionalTests 
 		}
 		assertTrue(thrown);
 		
+		assertTrue(new PrefsData().isUseAllTools()); // true by default
+		
 		// get inexistent preferences (will return default)
 		assertNotNull(M_sm.getPreferences(FakeData.SITE_A_ID, false));
 		assertNotNull(M_sm.getPreferences(FakeData.SITE_A_ID, true));
