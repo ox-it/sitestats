@@ -18,6 +18,13 @@
  */
 package org.sakaiproject.sitestats.impl.event;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Observable;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.sakaiproject.entity.api.ResourceProperties;
@@ -34,8 +41,6 @@ import org.sakaiproject.tool.api.SessionManager;
 import org.sakaiproject.user.api.Preferences;
 import org.sakaiproject.user.api.PreferencesService;
 import org.sakaiproject.util.ResourceLoader;
-
-import java.util.*;
 
 
 public class EntityBrokerEventRegistry extends Observable implements EventRegistry, EntityProviderListener<Statisticable> {
@@ -110,11 +115,12 @@ public class EntityBrokerEventRegistry extends Observable implements EventRegist
 	public String getEventName(String eventId) {
 		Locale currentUserLocale = getCurrentUserLocale();
 		EventLocaleKey key = new EventLocaleKey(eventId, currentUserLocale.toString());
-		if(eventNamesCache.containsKey(key.toString())) {
-			return (String) eventNamesCache.get(key.toString());
+		if(eventNamesCache.containsKey(key)) {
+			return (String) eventNamesCache.get(key);
 		}else{
 			String eventName = null;
 			try{
+				eventNamesCache.holdEvents();
 				String prefix = eventIdToEPPrefix.get(eventId);
 				Statisticable s = M_epm.getProviderByPrefixAndCapability(prefix, Statisticable.class);
 				Map<String, String> eventIdNamesMap = s.getEventNames(currentUserLocale);
@@ -122,7 +128,7 @@ public class EntityBrokerEventRegistry extends Observable implements EventRegist
 					for(String thisEventId : eventIdNamesMap.keySet()) {
 						EventLocaleKey thisCacheKey = new EventLocaleKey(thisEventId, currentUserLocale.toString());
 						String thisEventName = eventIdNamesMap.get(thisEventId);
-						eventNamesCache.put(thisCacheKey.toString(), thisEventName);
+						eventNamesCache.put(thisCacheKey, thisEventName);
 						if(thisEventId.equals(eventId)) {
 							eventName = thisEventName;
 						}
@@ -131,6 +137,8 @@ public class EntityBrokerEventRegistry extends Observable implements EventRegist
 				}
 			}catch(Exception e) {
 				eventName = null;
+			}finally{
+				eventNamesCache.processEvents();
 			}
 			return eventName;
 		}
