@@ -83,4 +83,6 @@ public class FakeEventTrackingService extends Observable implements EventTrackin
 
 	public void setEventDelayHandler(EventDelayHandler arg0) {}
 
+	public void cleanupEvents() {}
+
 }

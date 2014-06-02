@@ -135,4 +135,5 @@ public class FakeUsageSessionService implements UsageSessionService {
 		return null;
 	}
 
+	public void cleanupSessions() {}
 }

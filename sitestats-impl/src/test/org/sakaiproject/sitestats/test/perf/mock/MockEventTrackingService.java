@@ -97,4 +97,7 @@ public class MockEventTrackingService implements EventTrackingService {
 
 	}
 
+	@Override
+	public void cleanupEvents() {}
+
 }

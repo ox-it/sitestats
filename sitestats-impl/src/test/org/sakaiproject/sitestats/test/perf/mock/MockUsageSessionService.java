@@ -112,4 +112,7 @@ public class MockUsageSessionService implements UsageSessionService {
 		return 0;
 	}
 
+	@Override
+	public void cleanupSessions() {}
+
 }
